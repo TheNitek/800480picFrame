@@ -43,6 +43,32 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: Firmware
+        name: ESP32-8048S043 Firmware
         path: .pio/build/esp32-s3-devkitc-1/firmware.bin
         if-no-files-found: error
+    - name: Copy compiled binaries for webflash
+      run: |
+        cp .pio/build/esp32-s3-devkitc-1/bootloader.bin ./webflash
+        cp .pio/build/esp32-s3-devkitc-1/partitions.bin ./webflash
+        cp /home/runner/.platformio\packages\framework-arduinoespressif32\tools\partitions\boot_app0.bin ./webflash
+        cp .pio/build/esp32-s3-devkitc-1/firmware.bin ./webflash
+    - name: Setup Github Page
+      uses: actions/configure-pages@v3
+    - name: Upload webflash
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: ./webflash
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
