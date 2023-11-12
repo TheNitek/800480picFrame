@@ -36,7 +36,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install --upgrade platformio
     - name: Build
-      run: platformio run --project-dir=RfidShelf
+      run: platformio run
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
