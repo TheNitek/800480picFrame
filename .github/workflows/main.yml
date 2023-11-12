@@ -50,7 +50,7 @@ jobs:
       run: |
         cp .pio/build/esp32-s3-devkitc-1/bootloader.bin ./webflash
         cp .pio/build/esp32-s3-devkitc-1/partitions.bin ./webflash
-        cp /home/runner/.platformio\packages\framework-arduinoespressif32\tools\partitions\boot_app0.bin ./webflash
+        cp /home/runner/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin ./webflash
         cp .pio/build/esp32-s3-devkitc-1/firmware.bin ./webflash
     - name: Setup Github Page
       uses: actions/configure-pages@v3
